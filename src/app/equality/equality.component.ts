@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-equality',
@@ -6,5 +7,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./equality.component.css']
 })
 export class EqualityComponent {
+
+  mathForm = new FormGroup(
+    {
+      firstNumber: new FormControl(this.generateNumber()),
+      secondNumber:new FormControl(this.generateNumber()),
+      answer: new FormControl('')
+    }
+  )
+
+  get firstNumber() {
+    return this.mathForm.value.firstNumber;
+  }
+
+  get secondNumber() {
+    return this.mathForm.value.secondNumber;
+  }
+
+
+  generateNumber() {
+    return Math.floor(Math.random()*10);
+  }
 
 }
