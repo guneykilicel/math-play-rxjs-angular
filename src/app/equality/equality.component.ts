@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { EqualityValidators } from '../equality-validators';
-import { delay, filter } from 'rxjs';
+import { delay, filter, scan } from 'rxjs';
 
 @Component({
   selector: 'app-equality',
@@ -31,15 +31,21 @@ export class EqualityComponent {
 
   ngOnInit(): void {
 
-    const startTime = new Date();
-    let numberSolved = 0;
+    // const startTime = new Date();
+    // let numberSolved = 0;
 
     this.mathForm.statusChanges.pipe(
       filter(value => value === 'VALID'),
-      delay(800)
+      delay(800),
+      scan(acc => {
+        return {
+          numberSolved: acc.numberSolved+1,
+          startTime: acc.startTime
+        }
+      },{numberSolved:0, startTime: new Date()})
 
-    ).subscribe((value)=> {
-      numberSolved++;
+    ).subscribe(({numberSolved,startTime})=> {
+      // numberSolved++;
       this.seconds = (new Date().getTime() - startTime.getTime())/numberSolved/1000;
       // console.log(value);
       // if(value === 'INVALID') {
