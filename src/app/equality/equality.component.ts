@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { EqualityValidators } from '../equality-validators';
+import { delay, filter } from 'rxjs';
 
 @Component({
   selector: 'app-equality',
@@ -29,11 +30,15 @@ export class EqualityComponent {
   constructor() {}
 
   ngOnInit(): void {
-    this.mathForm.statusChanges.subscribe((value)=> {
+    this.mathForm.statusChanges.pipe(
+      filter(value => value === 'VALID'),
+      delay(800)
+
+    ).subscribe((value)=> {
       // console.log(value);
-      if(value === 'INVALID') {
-        return;
-      }
+      // if(value === 'INVALID') {
+      //   return;
+      // }
       //setValue ile tüm elemanları güncellemek gerek eğer bunu istemiyorsak,
       //patchValue kullanarak sadece istediklerimizi update edebiliriz
       this.mathForm.setValue({
