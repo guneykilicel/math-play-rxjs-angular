@@ -9,7 +9,7 @@ import { delay, filter } from 'rxjs';
   styleUrls: ['./equality.component.css']
 })
 export class EqualityComponent {
-
+  seconds = 0;
   mathForm = new FormGroup(
     {
       firstNumber: new FormControl(this.generateNumber()),
@@ -30,11 +30,17 @@ export class EqualityComponent {
   constructor() {}
 
   ngOnInit(): void {
+
+    const startTime = new Date();
+    let numberSolved = 0;
+
     this.mathForm.statusChanges.pipe(
       filter(value => value === 'VALID'),
       delay(800)
 
     ).subscribe((value)=> {
+      numberSolved++;
+      this.seconds = (new Date().getTime() - startTime.getTime())/numberSolved/1000;
       // console.log(value);
       // if(value === 'INVALID') {
       //   return;
