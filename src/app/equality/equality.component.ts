@@ -26,6 +26,25 @@ export class EqualityComponent {
     return this.mathForm.value.secondNumber;
   }
 
+  constructor() {}
+
+  ngOnInit(): void {
+    this.mathForm.statusChanges.subscribe((value)=> {
+      // console.log(value);
+      if(value === 'INVALID') {
+        return;
+      }
+      //setValue ile tüm elemanları güncellemek gerek eğer bunu istemiyorsak,
+      //patchValue kullanarak sadece istediklerimizi update edebiliriz
+      this.mathForm.setValue({
+        firstNumber:this.generateNumber(),
+        secondNumber: this.generateNumber(),
+        answer: ''
+      })
+
+    });
+  }
+
 
   generateNumber() {
     return Math.floor(Math.random()*10);
