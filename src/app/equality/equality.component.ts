@@ -15,7 +15,7 @@ export class EqualityComponent {
       secondNumber:new FormControl(this.generateNumber()),
       answer: new FormControl('')
     },
-    [EqualityValidators.addition]
+    [EqualityValidators.addition('answer','firstNumber','secondNumber')]
   )
 
   get firstNumber() {
